@@ -2,20 +2,12 @@ Core = exports["cs_lib"]:GetLib()
 
 
 Core.RegisterCallback('cs_autorepair:checkmoney', function(source, cb, item)
-	local xPlayer = Core.GetId(source)
-	if xPlayer ~= nil then
-		local items = xPlayer.getInventoryItem(item)
-		if items == nil then
-			cb(0)
-		else
-			cb(items.count)
-		end
-	end
+	cb(Core.GetTotalMoney(source, 'bank'))
 end)
 
 RegisterNetEvent("cs_autorepair:removemoney", function(money)
 	local _source = source
-	exports.ox_inventory:RemoveItem(_source, 'money', money)
+	Core.SubMoney(_source, 'bank', money)
 end)
 
 RegisterServerEvent('cs_autorepair:sendbill')
